@@ -1,7 +1,7 @@
 package api
 
 /*
-Will contain Controller of static components like :
+Will contain services of static components like :
 	- CRUD operations on Company Table
 	-
 */
