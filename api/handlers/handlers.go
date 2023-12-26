@@ -1,4 +1,4 @@
-package api
+package handlers
 
 /*
 Will contain Controller of static components like :
