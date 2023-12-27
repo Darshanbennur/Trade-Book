@@ -1,17 +1,16 @@
 package cmd
 
 import (
-	"net/http"
+	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
+var server *gin.Engine
+
 func Execute() {
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, world",
-		})
-	})
-	r.Run() // listen and serves on localhost:8080
+	server = gin.Default()
+	fmt.Println("Initializing the server ...")
+	log.Fatal(server.Run(":8080"))
 }

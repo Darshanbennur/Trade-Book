@@ -2,7 +2,7 @@ package services
 
 import "github.com/Darshanbennur/Trade-Book/api/models"
 
-type InstruentServices interface {
+type InstrumentServices interface {
 	// Create a new Instrument : 
 	CreateInstrument(*models.Instrument) error
 
@@ -13,7 +13,7 @@ type InstruentServices interface {
 	GetAllInstrument() ([] *models.Instrument, error)
 
 	// Update a given Instrument : 
-	Update_SingleInstrument(*string) error
+	Update_SingleInstrument(*models.Instrument) error
 
 	// Delete a given Instrument :
 	Delete_SingleInstrument(*string) error

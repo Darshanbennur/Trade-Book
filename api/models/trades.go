@@ -7,7 +7,7 @@ import (
 )
 
 type Trades struct {
-	ID         uuid.UUID   `json:"_id"`
+	ID         uuid.UUID   `gorm:"column:_id;primaryKey"`
 	CompanyID  uuid.UUID   `json:"company_id"` // will refer to the _id(UUID) of the Company Traded
 	Date       time.Time   `json:"enter_date"`
 	PnL        float64     `json:"pnl"`

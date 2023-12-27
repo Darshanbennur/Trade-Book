@@ -1,16 +1,14 @@
 package db
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func Start(db *gorm.DB) {
+func Start(db *gorm.DB) (*gorm.DB, error) {
 	dsn := os.Getenv("CONN_STR")
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -20,8 +18,5 @@ func Start(db *gorm.DB) {
 		log.Println("database connected successfully")
 	}
 
-	var now time.Time
-	db.Raw("SELECT NOW()").Scan(&now)
-
-	fmt.Println("Current time:", now)
+	return db, nil
 }
