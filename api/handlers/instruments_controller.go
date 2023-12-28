@@ -43,15 +43,36 @@ func (is *InstrumentController) Get_SingleInstrument(ctx *gin.Context) {
 }
 
 func (is *InstrumentController) GetAllInstrument(ctx *gin.Context) {
-
+	instruments, err := is.InstrumentService.GetAllInstrument()
+	if err != nil{
+		ctx.JSON(http.StatusBadGateway, gin.H{"message" : err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"instrument": instruments})
 }
 
 func (is *InstrumentController) Update_SingleInstrument(ctx *gin.Context) {
-
+	var instrument models.Instrument
+	if err := ctx.ShouldBindJSON(&instrument); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	erro := is.InstrumentService.Update_SingleInstrument(&instrument)
+	if erro != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"message" : erro.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"message" : "Updation Successful"})
 }
 
 func (is *InstrumentController) Delete_SingleInstrument(ctx *gin.Context) {
-
+	instrumentName := ctx.Param("name")
+	err := is.InstrumentService.Delete_SingleInstrument(&instrumentName)
+	if err != nil{
+		ctx.JSON(http.StatusBadGateway, gin.H{"message" : err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"message" : "Deletion Successful"})
 }
 
 func (is *InstrumentController) RegisterInstrumentRoutes(rg *gin.RouterGroup) {

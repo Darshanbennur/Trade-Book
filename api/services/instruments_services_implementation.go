@@ -40,13 +40,26 @@ func (IS *InstrumentServiceImpl) Get_SingleInstrument(name *string) (*models.Ins
 }
 
 func (IS *InstrumentServiceImpl) GetAllInstrument() ([]*models.Instrument, error) {
-	panic("unimplemented")
+	var instruments []*models.Instrument
+	result := IS.db.Find(&instruments)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return instruments, nil
 }
 
-func (IS *InstrumentServiceImpl) Update_SingleInstrument(*models.Instrument) error {
-	panic("unimplemented")
+func (IS *InstrumentServiceImpl) Update_SingleInstrument(instrument *models.Instrument) error {
+	result := IS.db.Save(instrument)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
-func (IS *InstrumentServiceImpl) Delete_SingleInstrument(*string) error {
-	panic("unimplemented")
+func (IS *InstrumentServiceImpl) Delete_SingleInstrument(name *string) error {
+	result := IS.db.Where("instrument_name = ?", *name).Delete(&models.Instrument{})
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
