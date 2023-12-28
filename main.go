@@ -18,7 +18,9 @@ var (
 	database             gorm.DB
 	ctx                  context.Context
 	instrumentService    services.InstrumentServices
+	tradeService         services.TradeServices
 	instrumentController handlers.InstrumentController
+	tradeController      handlers.TradeController
 )
 
 func init() {
@@ -35,15 +37,18 @@ func init() {
 	}
 
 	instrumentService = services.NewInstrumentService(database, ctx)
+	tradeService = services.NewTradeService(database, ctx)
 	instrumentController = handlers.NewInstrument(instrumentService)
+	tradeController = handlers.NewTrade(tradeService)
 
 	server = gin.Default()
 }
 
 func main() {
 
-	basepathInstrument := server.Group("/v1")
-	instrumentController.RegisterInstrumentRoutes(basepathInstrument)
+	basePath := server.Group("/v1")
+	tradeController.RegisterTradeRoutes(basePath)
+	instrumentController.RegisterInstrumentRoutes(basePath)
 
 	//Similarly rest Basepath and their controllers will be written here
 

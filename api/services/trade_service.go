@@ -13,7 +13,7 @@ type TradeServices interface {
 	GetAllTrade() ([]*models.Trades, error)
 
 	// Update a given trade :
-	Update_SingleTradeContent(*string) error
+	Update_SingleTradeContent(*models.Trades) error
 
 	// Delete a given trade : 
 	Delete_SingleTrade(*string) error
