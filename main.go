@@ -14,13 +14,17 @@ import (
 )
 
 var (
-	server               *gin.Engine
-	database             gorm.DB
-	ctx                  context.Context
-	instrumentService    services.InstrumentServices
-	tradeService         services.TradeServices
+	server   *gin.Engine
+	database gorm.DB
+	ctx      context.Context
+
+	instrumentService services.InstrumentServices
+	tradeService      services.TradeServices
+	companyService    services.CompanyServices
+
 	instrumentController handlers.InstrumentController
 	tradeController      handlers.TradeController
+	companyController    handlers.CompanyController
 )
 
 func init() {
@@ -38,8 +42,11 @@ func init() {
 
 	instrumentService = services.NewInstrumentService(database, ctx)
 	tradeService = services.NewTradeService(database, ctx)
+	companyService = services.NewCompanyService(database, ctx)
+
 	instrumentController = handlers.NewInstrument(instrumentService)
 	tradeController = handlers.NewTrade(tradeService)
+	companyController = handlers.NewCompany(companyService)
 
 	server = gin.Default()
 }
@@ -49,7 +56,8 @@ func main() {
 	basePath := server.Group("/v1")
 	tradeController.RegisterTradeRoutes(basePath)
 	instrumentController.RegisterInstrumentRoutes(basePath)
-
+	companyController.RegisterCompanyRoutes(basePath)
+	
 	//Similarly rest Basepath and their controllers will be written here
 
 	fmt.Println("Initializing the server ...")
