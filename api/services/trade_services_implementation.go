@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/Darshanbennur/Trade-Book/api/models"
 	"github.com/google/uuid"
@@ -23,7 +24,9 @@ func NewTradeService(db *gorm.DB, ctx context.Context) TradeServices {
 
 func (TS *TradeServiceImpl) CreateTrade(trade *models.Trades) error {
 	newID := uuid.New()
+	currentDate := time.Now()
 	trade.ID = newID
+	trade.EnterDate = currentDate
 	fmt.Printf("Trade : %+v", trade)
 	err := TS.db.Create(trade).Error
 	if err != nil {
