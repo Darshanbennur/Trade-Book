@@ -19,7 +19,7 @@ type CompanyServices interface {
 	GetAllCompanyDetails() ([]*models.Companies, error)
 
 	// Update a given company :
-	Update_SingleCompany(*string) error
+	Update_SingleCompany(*string, *models.Companies) error
 
 	// Delete a given company :
 	Delete_SingleCompany(*string) error

@@ -20,9 +20,11 @@ var (
 	instrumentService      services.InstrumentServices
 	tradeService           services.TradeServices
 	journalTradeService    services.JournalTradeServices
+	companyService         services.CompanyServices
+	journalTradeController handlers.JournalTradeController
 	instrumentController   handlers.InstrumentController
 	tradeController        handlers.TradeController
-	journalTradeController handlers.JournalTradeController
+	companyController      handlers.CompanyController
 )
 
 func init() {
@@ -41,9 +43,11 @@ func init() {
 	instrumentService = services.NewInstrumentService(database, ctx)
 	tradeService = services.NewTradeService(database, ctx)
 	journalTradeService = services.NewJournalTradeService(database, ctx)
+	companyService = services.NewCompanyService(database, ctx)
 	instrumentController = handlers.NewInstrument(instrumentService)
 	tradeController = handlers.NewTrade(tradeService)
 	journalTradeController = handlers.NewJournalTrade(journalTradeService)
+	companyController = handlers.NewCompany(companyService)
 
 	server = gin.Default()
 }
@@ -54,6 +58,7 @@ func main() {
 	tradeController.RegisterTradeRoutes(basePath)
 	instrumentController.RegisterInstrumentRoutes(basePath)
 	journalTradeController.RegisterJournalTradeRoutes(basePath)
+	companyController.RegisterCompanyRoutes(basePath)
 
 	//Similarly rest Basepath and their controllers will be written here
 
