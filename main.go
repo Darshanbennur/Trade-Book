@@ -6,10 +6,7 @@ import (
 	"github.com/Darshanbennur/Trade-Book/cmd"
 	"github.com/Darshanbennur/Trade-Book/db"
 	"github.com/joho/godotenv"
-	"gorm.io/gorm"
 )
-
-var database gorm.DB
 
 func main() {
 
@@ -18,7 +15,8 @@ func main() {
 		log.Fatal("failed to load environment vairables", err)
 	}
 
-	db.Start(&database)
+	_ = db.Start()
+
 	cmd.Execute()
 
 }

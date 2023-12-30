@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Start(db *gorm.DB) {
+func Start() *gorm.DB {
 	dsn := os.Getenv("CONN_STR")
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -24,4 +24,6 @@ func Start(db *gorm.DB) {
 	db.Raw("SELECT NOW()").Scan(&now)
 
 	fmt.Println("Current time:", now)
+
+	return db
 }
