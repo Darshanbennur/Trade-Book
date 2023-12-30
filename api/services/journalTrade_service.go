@@ -13,7 +13,7 @@ type JournalTradeServices interface {
 	GetAllJournal() ([]*models.JournalTrades, error)
 
 	// Update a given journal :
-	Update_SingleJournal(*string) error
+	Update_SingleJournalContent(*string) error
 
 	// Delete a given journal :
 	Delete_SingleJournal(*string) error

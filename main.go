@@ -14,13 +14,15 @@ import (
 )
 
 var (
-	server               *gin.Engine
-	database             gorm.DB
-	ctx                  context.Context
-	instrumentService    services.InstrumentServices
-	tradeService         services.TradeServices
-	instrumentController handlers.InstrumentController
-	tradeController      handlers.TradeController
+	server                 *gin.Engine
+	database               gorm.DB
+	ctx                    context.Context
+	instrumentService      services.InstrumentServices
+	tradeService           services.TradeServices
+	journalTradeService    services.JournalTradeServices
+	instrumentController   handlers.InstrumentController
+	tradeController        handlers.TradeController
+	journalTradeController handlers.JournalTradeController
 )
 
 func init() {
@@ -33,13 +35,15 @@ func init() {
 
 	database, error := db.Start(&database)
 	if error != nil {
-		// Handle error
+		log.Fatal("failed to connect to database", err)
 	}
 
 	instrumentService = services.NewInstrumentService(database, ctx)
 	tradeService = services.NewTradeService(database, ctx)
+	journalTradeService = services.NewJournalTradeService(database, ctx)
 	instrumentController = handlers.NewInstrument(instrumentService)
 	tradeController = handlers.NewTrade(tradeService)
+	journalTradeController = handlers.NewJournalTrade(journalTradeService)
 
 	server = gin.Default()
 }
@@ -49,6 +53,7 @@ func main() {
 	basePath := server.Group("/v1")
 	tradeController.RegisterTradeRoutes(basePath)
 	instrumentController.RegisterInstrumentRoutes(basePath)
+	journalTradeController.RegisterJournalTradeRoutes(basePath)
 
 	//Similarly rest Basepath and their controllers will be written here
 
